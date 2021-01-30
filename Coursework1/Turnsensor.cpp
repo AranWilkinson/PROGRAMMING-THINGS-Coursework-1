@@ -30,13 +30,6 @@ int16_t gyroOffset;
 // between readings of the gyro.
 uint16_t gyroLastUpdate = 0;
 
-/* This should be called in setup() to enable and calibrate the
-gyro.  It uses the LCD, yellow LED, and button A.  While the LCD
-is displaying "Gyro cal", you should be careful to hold the robot
-still.
-The digital zero-rate level of the L3GD20H gyro can be as high as
-25 degrees per second, and this calibration helps us correct for
-that. */
 void turnSensorSetup()
 {
   Wire.begin();
@@ -51,12 +44,6 @@ void turnSensorSetup()
 
   // High-pass filter disabled
   gyro.writeReg(L3G::CTRL5, 0b00000000);
-
-  lcd.clear();
-  lcd.print(F("Gyro cal"));
-
-  // Turn on the yellow LED in case the LCD is not available.
-  ledYellow(1);
 
   // Delay to give the user time to remove their finger.
   delay(500);
