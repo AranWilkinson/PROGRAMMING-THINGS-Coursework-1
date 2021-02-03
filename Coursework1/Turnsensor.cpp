@@ -79,7 +79,7 @@ void turnSensorUpdate()
   // Read the measurements from the gyro.
   gyro.read();
   turnRate = gyro.g.z - gyroOffset;
-
+  
   // Figure out how much time has passed since the last update (dt)
   uint16_t m = micros();
   uint16_t dt = m - gyroLastUpdate;
