@@ -3,6 +3,8 @@
 
 #include "Turnsensor.h"
 
+const int16_t maxSpeed = 200;
+int turnSpeed = 150;
 
 Zumo32U4Motors motors;
 
@@ -12,13 +14,18 @@ void setup()
 {
   // put your setup code here, to run once:
 
-  Serial1.begin(9600);
+  Serial1.begin(9600);        //The xBee Port...
+  Serial.begin(9600);         //The USB Port...
 
   delay(2000);
 
   turnSensorSetup();
   delay(500);
   turnSensorReset();
+
+  delay(100);
+
+  forwards();
 }
 
 void loop()
@@ -27,62 +34,72 @@ void loop()
 
   turnSensorUpdate();
 
-  
-  forward();
-
-  delay(1000);
-
-  stop();
-
-  delay(1000);
-
-  turn(90);
-
-  delay(1000);
-
-  /*
-  if(serial1.availiable())
+  if(Serial1.available() > 0)
   {
+
+    ledGreen(1);
+    
     char input = Serial1.read(); //read in input and convert to char
 
     switch(input)
     {
       case 'w': //If W is recieved the zumo will move forward.
-        forward();
+        forwards();
+        break;
+      case 'a': //If A is recieved the zumo will turn left.
+        turnLeft(90);
+        break;
+      case 's': //If S is recieved the zumo will move backwards.
+        backwards();
+        break;
+      case 'd': //If D is recieved the zumo will turn right.
+        turnRight(90);
         break;
     }
-    
   }
-  */
+  else 
+  {
+     ledRed(1);
+  }
+
 }
 
 
-void forward()
+void forwards()
 {
-  motors.setSpeeds(50, 50);
+  motors.setSpeeds(maxSpeed, maxSpeed);
+  delay(1000);
+  motors.setSpeeds(0, 0);
 }
 
 void backwards()
 {
-  motors.setSpeeds(-50, -50);
+  motors.setSpeeds(-maxSpeed, -maxSpeed);
+  delay(1000);
+  motors.setSpeeds(0, 0);
 }
 
-void turn(int32_t change)
-{
-  int32_t  startAngle = getAngle();
-  int32_t  current = startAngle;
-  while(current != startAngle+change)
-  {
+void turnLeft(int degrees) {
+  turnSensorReset();
+  motors.setSpeeds(-turnSpeed, turnSpeed);
+  int angle = 0;
+  do {
+    delay(1);
     turnSensorUpdate();
-    current = getAngle();
-    
-    if(change > 0) motors.setSpeeds(0, 5);
-    else           motors.setSpeeds(5, 0);
-  }
+    angle = (((int32_t)turnAngle >> 16) * 360) >> 16;
+  } while (angle < degrees);
+  motors.setSpeeds(0, 0);
 }
 
-void stop()
-{
+void turnRight(int degrees) {
+  turnSensorReset();
+  motors.setSpeeds(turnSpeed, -turnSpeed);
+  int angle = 0;
+  do {
+    delay(1);
+    turnSensorUpdate();
+    angle = (((int32_t)turnAngle >> 16) * 360) >> 16;
+  } while (angle > -degrees);
   motors.setSpeeds(0, 0);
 }
 
@@ -91,8 +108,5 @@ void stop()
 
 int32_t getAngle() 
 {
-  // turnAngle is a variable defined in TurnSensor.cpp
-  // This fancy math converts the number into degrees turned since the
-  // last sensor reset.
   return (((int32_t)turnAngle >> 16) * 360) >> 16;
 }

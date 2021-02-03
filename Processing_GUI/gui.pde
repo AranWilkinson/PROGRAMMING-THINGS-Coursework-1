@@ -16,27 +16,27 @@
 
 public void Forward_click1(GButton source, GEvent event) { //_CODE_:Forward:623351:
   println("button1 - GButton >> GEvent." + event + " @ " + millis());
-  xbeePort.write('w');                                        //Sends the char to the xBee Module
+  send('w');                                                    //Sends the char to the xBee Module
 } //_CODE_:Forward:623351:
 
 public void Right_click1(GButton source, GEvent event) { //_CODE_:Right:637373:
   println("button2 - GButton >> GEvent." + event + " @ " + millis());
-  xbeePort.write('a');                                        //Sends the char to the xBee Module
+  send('d');                                                        //Sends the char to the xBee Module
 } //_CODE_:Right:637373:
 
 public void Back_click1(GButton source, GEvent event) { //_CODE_:Back:885457:
   println("button3 - GButton >> GEvent." + event + " @ " + millis());
-  xbeePort.write('s');                                        //Sends the char to the xBee Module
+  send('s');                                                       //Sends the char to the xBee Module
 } //_CODE_:Back:885457:
 
 public void Left_click1(GButton source, GEvent event) { //_CODE_:Left:588872:
   println("button4 - GButton >> GEvent." + event + " @ " + millis());
-  xbeePort.write('d');                                        //Sends the char to the xBee Module
+  send('a');                                                        //Sends the char to the xBee Module
 } //_CODE_:Left:588872:
 
 public void Stop_click1(GButton source, GEvent event) { //_CODE_:Stop:768888:
   println("button5 - GButton >> GEvent." + event + " @ " + millis());
-  xbeePort.write('h');                                        //Sends the char to the xBee Module
+  send('c');                                                        //Sends the char to the xBee Module
 } //_CODE_:Stop:768888:
 
 public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:ZumoInput:698218:
@@ -46,13 +46,10 @@ public void textfield1_change1(GTextField source, GEvent event) { //_CODE_:ZumoI
 public void Send_click1(GButton source, GEvent event) { //_CODE_:Send:922618:
   println("Send - GButton >> GEvent." + event + " @ " + millis());
   
-  String line = ZumoInput.getText();                          //Gets the text from the ZumoInput textbox
-  char input = line.charAt(0);                                //Gets the first char in the String...
-  ZumoInput.setText("");                                      //Resets the ZumoInput textbox to be empty.
-  
-  History.setText(History.getText() + "\n" + input);
-  
-  xbeePort.write(input);                                      //Sends the char to the xBee Module
+  String line = ZumoInput.getText();                                        //Gets the text from the ZumoInput textbox
+  char input = line.charAt(0);                                              //Gets the first char in the String...
+  ZumoInput.setText("");                                                    //Resets the ZumoInput textbox to be empty
+  send(input);                                                              //Sends the char to the xBee Module
   
 } //_CODE_:Send:922618:
 

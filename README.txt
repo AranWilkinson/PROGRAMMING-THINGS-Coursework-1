@@ -10,6 +10,10 @@ repository. If you have any further questions, please email me on either my
 university email (b7025268@my.shu.ac.uk) or my personal email
 (aran.wilkinson101@gmail.com). I will respond to either as soon as possible.
 
+
+		The git repository can be found at the link below:
+	https://github.com/AranWilkinson/PROGRAMMING-THINGS-Coursework-1
+
 -===============================================================================-
 -    				FILE STRUCTURE					-
 -===============================================================================-
@@ -32,6 +36,9 @@ this enabled me to create a nice user friend GUI in a short time frame. The GUI
 itself is relatively simple but I tried to follow a consistent approach in the 
 looks and layout as to not confuse the user.
 
+I looked at example gyroscope code online by pvcraven:
+https://github.com/pvcraven/zumo_32u4_examples/tree/master/GyroSensorExample
+This showed an example of how to use the built in gyroscope on the zumo.
 
 -===============================================================================-
 -    				FINAL NOTES					-
